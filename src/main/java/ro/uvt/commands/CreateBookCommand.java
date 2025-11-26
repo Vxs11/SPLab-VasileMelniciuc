@@ -12,6 +12,8 @@ public class CreateBookCommand implements Command<Book> {
 
     @Override
     public Book execute() {
-        return ctx.getBooksService().create(ctx.getTitle());
+        Book book = new Book();
+        book.setTitle(ctx.getTitle());
+        return ctx.getBooksRepository().save(book);
     }
 }

@@ -1,27 +1,25 @@
 package ro.uvt.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Book {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;
+    private String name;
 
-    public Book() {
+    public Author() {
     }
 
-    public Book(Integer id, String title) {
+    public Author(Integer id, String name) {
         this.id = id;
-        this.title = title;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -32,11 +30,11 @@ public class Book {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }

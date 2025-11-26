@@ -1,18 +1,20 @@
 package ro.uvt.commands;
 
-import ro.uvt.services.BooksService;
+import ro.uvt.models.Book;
+import ro.uvt.persistence.CrudRepository;
 
 public class CommandContext {
-    private BooksService booksService;
+
+    private CrudRepository<Book, Integer> booksRepository;
     private Integer id;
     private String title;
 
-    public BooksService getBooksService() {
-        return booksService;
+    public CrudRepository<Book, Integer> getBooksRepository() {
+        return booksRepository;
     }
 
-    public void setBooksService(BooksService booksService) {
-        this.booksService = booksService;
+    public void setBooksRepository(CrudRepository<Book, Integer> booksRepository) {
+        this.booksRepository = booksRepository;
     }
 
     public Integer getId() {
