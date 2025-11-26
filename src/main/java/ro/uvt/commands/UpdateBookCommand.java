@@ -12,6 +12,12 @@ public class UpdateBookCommand implements Command<Book> {
 
     @Override
     public Book execute() {
-        return ctx.getBooksService().update(ctx.getId(), ctx.getTitle());
+        return ctx.getBooksRepository()
+                .findById(ctx.getId())
+                .map(existing -> {
+                    existing.setTitle(ctx.getTitle());
+                    return ctx.getBooksRepository().save(existing);
+                })
+                .orElse(null);
     }
 }

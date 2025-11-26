@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.uvt.commands.*;
 import ro.uvt.models.Book;
-import ro.uvt.services.BooksService;
+import ro.uvt.persistence.CrudRepository;
 
 import java.util.List;
 
@@ -12,23 +12,23 @@ import java.util.List;
 @RequestMapping("/books")
 public class BooksController {
 
-    private final BooksService booksService;
+    private final CrudRepository<Book, Integer> booksRepository;
 
-    public BooksController(BooksService booksService) {
-        this.booksService = booksService;
+    public BooksController(CrudRepository<Book, Integer> booksRepository) {
+        this.booksRepository = booksRepository;
     }
 
     @GetMapping
     public List<Book> getAll() {
         CommandContext ctx = new CommandContext();
-        ctx.setBooksService(booksService);
+        ctx.setBooksRepository(booksRepository);
         return new GetAllBooksCommand(ctx).execute();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getById(@PathVariable Integer id) {
         CommandContext ctx = new CommandContext();
-        ctx.setBooksService(booksService);
+        ctx.setBooksRepository(booksRepository);
         ctx.setId(id);
 
         Book book = new GetBookByIdCommand(ctx).execute();
@@ -38,7 +38,7 @@ public class BooksController {
     @PostMapping
     public Book create(@RequestBody Book request) {
         CommandContext ctx = new CommandContext();
-        ctx.setBooksService(booksService);
+        ctx.setBooksRepository(booksRepository);
         ctx.setTitle(request.getTitle());
 
         return new CreateBookCommand(ctx).execute();
@@ -48,7 +48,7 @@ public class BooksController {
     public ResponseEntity<Book> update(@PathVariable Integer id,
                                        @RequestBody Book request) {
         CommandContext ctx = new CommandContext();
-        ctx.setBooksService(booksService);
+        ctx.setBooksRepository(booksRepository);
         ctx.setId(id);
         ctx.setTitle(request.getTitle());
 
@@ -59,7 +59,7 @@ public class BooksController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         CommandContext ctx = new CommandContext();
-        ctx.setBooksService(booksService);
+        ctx.setBooksRepository(booksRepository);
         ctx.setId(id);
 
         boolean deleted = new DeleteBookCommand(ctx).execute();
